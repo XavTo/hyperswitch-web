@@ -19,13 +19,14 @@ RUN if [ ! -f "shared-code/sdk-utils/package.json" ]; then \
     fi
 
 # 4
-ARG sdkUrl
-ARG backendUrl
-ENV sdkUrl=$sdkUrl
-ENV backendUrl=$backendUrl
+ARG envSdkUrl
+ARG envBackendUrl
+ENV envSdkUrl=$envSdkUrl
+ENV envBackendUrl=$envBackendUrl
 
 # 5
-RUN npm run re:build && npm run build:integ
+RUN envSdkUrl=$envSdkUrl envBackendUrl=$envBackendUrl npm run re:build && \
+    envSdkUrl=$envSdkUrl envBackendUrl=$envBackendUrl npm run build:integ
 
 # 6
 RUN VERSION=$(node -p "require('./package.json').version") && \
