@@ -14,7 +14,7 @@ RUN npm install --ignore-scripts
 COPY . .
 
 # Initialize and update submodules
-RUN git submodule update --init --recursive
+# RUN git submodule update --init --recursive
 
 RUN npm run re:build && npm run build
 
