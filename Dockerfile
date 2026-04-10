@@ -12,11 +12,13 @@ RUN if [ ! -f "shared-code/sdk-utils/package.json" ]; then \
     git clone https://github.com/juspay/hyperswitch-sdk-utils.git shared-code; \
     fi
 
-RUN envSdkUrl=https://hyperswitch-web-production-a54e.up.railway.app \
-    envBackendUrl=https://hyperswitch-router-production.up.railway.app \
+RUN ENV_SDK_URL=https://hyperswitch-web-production-a54e.up.railway.app \
+    ENV_BACKEND_URL=https://hyperswitch-router-production.up.railway.app \
+    sdkEnv=integ \
     npm run re:build && \
-    envSdkUrl=https://hyperswitch-web-production-a54e.up.railway.app \
-    envBackendUrl=https://hyperswitch-router-production.up.railway.app \
+    ENV_SDK_URL=https://hyperswitch-web-production-a54e.up.railway.app \
+    ENV_BACKEND_URL=https://hyperswitch-router-production.up.railway.app \
+    sdkEnv=integ \
     npm run build:integ
 
 RUN VERSION=$(node -p "require('./package.json').version") && \
