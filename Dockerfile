@@ -32,4 +32,4 @@ RUN VERSION=$(node -p "require('./package.json').version") && \
     cp dist/integ/v1/app.css.map dist/app.css.map 2>/dev/null || true
 
 EXPOSE 9050
-CMD npx -y serve -s dist -l tcp://0.0.0.0:9050
+CMD npx -y http-server dist -p 9050 -a 0.0.0.0 --cors
