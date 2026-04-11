@@ -2,9 +2,12 @@ FROM node:24-alpine
 RUN apk add --no-cache make gcc g++ python3 bash git
 WORKDIR /usr/src/app
 
+# Build arguments (passed by Railway via build args)
+ARG envSdkUrl
+ARG envBackendUrl
+
 COPY package*.json ./
 RUN npm install --ignore-scripts
-
 COPY . .
 
 RUN if [ ! -f "shared-code/sdk-utils/package.json" ]; then \
@@ -12,12 +15,13 @@ RUN if [ ! -f "shared-code/sdk-utils/package.json" ]; then \
     git clone https://github.com/juspay/hyperswitch-sdk-utils.git shared-code; \
     fi
 
-RUN ENV_SDK_URL=https://hyperswitch-web-production-a54e.up.railway.app \
-    ENV_BACKEND_URL=https://hyperswitch-router-production.up.railway.app \
+RUN echo "Building with envSdkUrl=$envSdkUrl envBackendUrl=$envBackendUrl" && \
+    ENV_SDK_URL=$envSdkUrl \
+    ENV_BACKEND_URL=$envBackendUrl \
     sdkEnv=integ \
     npm run re:build && \
-    ENV_SDK_URL=https://hyperswitch-web-production-a54e.up.railway.app \
-    ENV_BACKEND_URL=https://hyperswitch-router-production.up.railway.app \
+    ENV_SDK_URL=$envSdkUrl \
+    ENV_BACKEND_URL=$envBackendUrl \
     sdkEnv=integ \
     npm run build:integ
 
