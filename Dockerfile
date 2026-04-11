@@ -15,8 +15,7 @@ RUN if [ ! -f "shared-code/sdk-utils/package.json" ]; then \
     git clone https://github.com/juspay/hyperswitch-sdk-utils.git shared-code; \
     fi
 
-RUN echo "Building with envSdkUrl=$envSdkUrl envBackendUrl=$envBackendUrl" && \
-    ENV_SDK_URL=$envSdkUrl \
+RUN ENV_SDK_URL=$envSdkUrl \
     ENV_BACKEND_URL=$envBackendUrl \
     sdkEnv=integ \
     npm run re:build && \
